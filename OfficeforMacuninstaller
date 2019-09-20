@@ -1,0 +1,99 @@
+#!/bin/bash
+
+# Script to remove Office for Mac 2016/2019.
+
+# You must run this script as root"
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root"
+   exit 1
+fi
+
+echo "
++++++++++++++++++Office for Mac uninstaller+++++++++++++++++
++	Date: 8/20/2019					   +       		
++	By: Shawn Trockman 				   +
++	Contact: shawntr@shawntrockman.com    		   +
++       				          	   +	 
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+This Script removes Office for Mac and associated Data to
+include Outlook data. Please Do not continue without first
+performing a backup.
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+ 
+echo "Would you like to continue? (Y/N): "
+
+read userAnswer
+
+if [ $userAnswer == "Y" ] || [ $userAnswer == "y" ] || [ $userAnswer == "Yes" ];
+
+then
+ 
+	echo "Removing Office and associated data"
+
+# Removing Office for Mac applications
+
+	rm -rf "/Applications/Microsoft Excel.app"
+ 
+	rm -rf "/Applications/Microsoft OneNote.app"
+ 
+	rm -rf "/Applications/Microsoft Outlook.app"
+ 
+	rm -rf "/Applications/Microsoft PowerPoint.app"
+ 
+	rm -rf "/Applications/Microsoft Word.app"
+
+# Removing Office for Mac files from your user Library folder
+ 
+	rm -r ~/Library/Containers/com.microsoft.errorreporting
+ 
+	rm -r ~/Library/Containers/com.microsoft.Excel
+ 
+	rm -r ~/Library/Containers/com.microsoft.netlib.shipassertprocess
+ 
+	rm -r ~/Library/Containers/com.microsoft.Office365ServiceV2
+ 
+	rm -r ~/Library/Containers/com.microsoft.Outlook
+ 
+	rm -r ~/Library/Containers/com.microsoft.Powerpoint
+ 
+	rm -r ~/Library/Containers/com.microsoft.RMS-XPCService
+ 
+	rm -r ~/Library/Containers/com.microsoft.Word
+ 
+	rm -r ~/Library/Containers/com.microsoft.onenote.mac
+
+# Warning: Outlook data will be removed when you delete the three folders listed below.
+
+	echo "Proceeding further will erase all Outlook data, if you need this data ensure you have a backup before proceeding. Would you like to continue?(Y/N): "
+
+	read proceed
+
+		if [ $proceed == "Y" ] || [ $proceed == "y" ] || [ $proceed == "Yes" ];
+
+			then 
+				echo "Removing Outlook Data"
+
+				rm -r "~/Library/Group Containers/UBF8T346G9.ms"
+ 
+				rm -r "~/Library/Group Containers/UBF8T346G9.Office"
+ 
+				rm -r "~/Library/Group Containers/UBF8T346G9.OfficeOsfWebHost"
+ 
+				echo "Office has been removed"
+		else
+			
+			echo "exiting"
+
+			exit
+
+		fi
+
+
+else
+
+	echo "exiting"
+
+exit
+
+fi
